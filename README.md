@@ -19,4 +19,3 @@ Variable          | Default                        | Description
 ```
 docker build -t vcenter-probe . --no-cache
 ```
-# vcenter-probe
