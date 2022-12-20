@@ -1,9 +1,6 @@
 from libprobe.asset import Asset
 from libprobe.exceptions import IgnoreCheckException
 from pyVmomi import vim  # type: ignore
-from ..utils import on_about_info
-from ..utils import on_config_summary
-from ..utils import on_host_summary
 from ..vmwarequery import vmwarequery
 
 
