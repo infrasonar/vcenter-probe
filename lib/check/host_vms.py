@@ -9,11 +9,11 @@ def on_guest_info(obj):
     # vim.vm.GuestInfo
     return {
         'appHeartbeatStatus': obj.appHeartbeatStatus,  # str
-        'appState': obj.appState,  # str
+        'appState': obj.appState,  # str/null
         'guestFamily': obj.guestFamily,  # str
         'guestFullName': obj.guestFullName,  # str
         'guestId': obj.guestId,  # str
-        'guestKernelCrashed': obj.guestKernelCrashed,  # bool
+        'guestKernelCrashed': obj.guestKernelCrashed,  # bool/null
         'guestOperationsReady': obj.guestOperationsReady,  # bool
         'guestState': obj.guestState,  # str
         'guestStateChangeSupported': obj.guestStateChangeSupported,  # bool
@@ -21,7 +21,7 @@ def on_guest_info(obj):
         'interactiveGuestOperationsReady':
             obj.interactiveGuestOperationsReady,  # bool
         'ipAddress': obj.ipAddress,  # str
-        'toolsInstallType': obj.toolsInstallType,  # str
+        'toolsInstallType': obj.toolsInstallType,  # str/null
         'toolsRunningStatus': obj.toolsRunningStatus,  # str
         'toolsStatus': obj.toolsStatus,  # str
         'toolsVersion': obj.toolsVersion,  # str
@@ -40,7 +40,7 @@ def on_runtime_info(obj):
         'cryptoState': obj.cryptoState,  # str/null
         'faultToleranceState': obj.faultToleranceState,  # str
         'instantCloneFrozen': obj.instantCloneFrozen,  # bool
-        'maxCpuUsage': obj.maxCpuUsage,  # int
+        'maxCpuUsage': obj.maxCpuUsage,  # int/null
         'maxMemoryUsage': obj.maxMemoryUsage,  # int
         'memoryOverhead': obj.memoryOverhead,  # int
         'minRequiredEVCModeKey': obj.minRequiredEVCModeKey,  # str
@@ -120,10 +120,10 @@ def on_virtual_disk_backing_info(obj):
     # vim.vm.device.VirtualDisk.FlatVer2BackingInfo
     return {
         'changeId': obj.changeId,  # str/null
-        'contentId': obj.contentId,  # str
-        'deltaDiskFormat': obj.deltaDiskFormat,  # str
-        'deltaDiskFormatVariant': obj.deltaDiskFormatVariant,  # str
-        'deltaGrainSize': obj.deltaGrainSize,  # int
+        'contentId': obj.contentId,  # str/null
+        'deltaDiskFormat': obj.deltaDiskFormat,  # str/null
+        'deltaDiskFormatVariant': obj.deltaDiskFormatVariant,  # str/null
+        'deltaGrainSize': obj.deltaGrainSize,  # int/null
         'digestEnabled': obj.digestEnabled,  # bool
         'diskMode': obj.diskMode,  # str
         'eagerlyScrub': obj.eagerlyScrub,  # bool
@@ -142,7 +142,8 @@ def on_virtual_disk(obj):
         **on_virtual_disk_backing_info(obj.backing),
         'capacityInBytes': obj.capacityInBytes,  # int
         'diskObjectId': obj.diskObjectId,  # str/null
-        'nativeUnmanagedLinkedClone': obj.nativeUnmanagedLinkedClone,  # bool
+        'nativeUnmanagedLinkedClone':
+            obj.nativeUnmanagedLinkedClone,  # bool/null
     }
 
 

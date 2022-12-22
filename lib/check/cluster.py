@@ -8,7 +8,7 @@ def on_cluster_summary(obj):
     # vim.ClusterComputeResource.Summary
     return {
         'currentBalance': obj.currentBalance,  # int
-        'currentEVCModeKey': obj.currentEVCModeKey,  # str
+        'currentEVCModeKey': obj.currentEVCModeKey,  # str/null
         'currentFailoverLevel': obj.currentFailoverLevel,  # int
         'numVmotions': obj.numVmotions,  # int
         'targetBalance': obj.targetBalance,  # int
@@ -50,8 +50,8 @@ def on_config_summary(obj):
 def on_host_summary(obj):
     # vim.host.Summary
     return {
-        'currentEVCGraphicsModeKey': obj.currentEVCGraphicsModeKey,  # str
-        'currentEVCModeKey': obj.currentEVCModeKey,  # str
+        'currentEVCGraphicsModeKey': obj.currentEVCGraphicsModeKey,  # str/null
+        'currentEVCModeKey': obj.currentEVCModeKey,  # str/null
         'managementServerIp': obj.managementServerIp,  # str
         'maxEVCModeKey': obj.maxEVCModeKey,  # str
         'overallStatus': obj.overallStatus,  # str
