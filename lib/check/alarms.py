@@ -16,7 +16,7 @@ async def check_alarms(
     alarms = [
         # vim.alarm.AlarmState
         {
-            'name': str(alarm.key),
+            'name': alarm.key,  # str
             'entityName': alarm.entity.name,  # str
             'alarmInfo': alarm.alarm.info.name,  # str
             'alarmDesc': alarm.alarm.info.description,  # str
