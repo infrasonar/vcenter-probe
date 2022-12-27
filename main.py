@@ -15,7 +15,7 @@ if __name__ == '__main__':
         'configIssues': check_config_issues,
         'datastore': check_datastore,
         'hostVMs': check_host_vms,
-        'licences': check_licenses,
+        'licenses': check_licenses,
     }
 
     probe = Probe("vcenter", version, checks)
