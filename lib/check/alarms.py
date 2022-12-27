@@ -22,7 +22,8 @@ async def check_alarms(
             'alarmDesc': alarm.alarm.info.description,  # str
             'acknowledged': alarm.acknowledged,  # bool
             'acknowledgedByUser': alarm.acknowledgedByUser,  # str/null
-            'acknowledgedTime': datetime_to_timestamp(alarm.acknowledgedTime),  # int/null
+            'acknowledgedTime':
+                datetime_to_timestamp(alarm.acknowledgedTime),  # int/null
             'eventKey': alarm.eventKey,  # int/null
             'overallStatus': alarm.overallStatus,  # str
             'time': datetime_to_timestamp(alarm.time),  # int
