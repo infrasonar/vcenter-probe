@@ -245,6 +245,11 @@ async def check_host_vms(
             path = ('cpu', 'readiness')
             total_name = ''
             info_dct['cpuReadiness'] = perf[path].get(total_name)
+
+            # number of disk bus reset commands by the virtual machine
+            path = ('disk', 'busResets')
+            info_dct['busResets'] = sum(perf[path].values())
+
         hyp = hypervisors_lookup.get(vm['runtime'].host)
         if hyp:
             info_dct['currentHypervisor'] = hyp['name']
@@ -265,13 +270,6 @@ async def check_host_vms(
                 datastore = stores_lookup[device.backing.datastore]
                 datastore_name = datastore['name']
                 disk_dct['datastore'] = datastore['name']
-
-                if perf is not None:
-                    for partition in datastore['info'].vmfs.extent:
-                        path = ('disk', 'busResets')
-                        disk_name = partition.diskName
-                        disk_dct['busResets'] = perf[path].get(disk_name)
-
                 if hasattr(device, 'deviceInfo') and device.deviceInfo:
                     disk_dct['label'] = device.deviceInfo.label
                 if disk_dct['capacityInBytes'] and \
