@@ -10,13 +10,13 @@ MAX_CONN_AGE = 900
 
 
 def get_alarms(ip4, username, password):
-    conn = _get_connection(ip4, username, password)
+    conn = _get_conn(ip4, username, password)
     content = conn.RetrieveContent()
     return content.rootFolder.triggeredAlarmState
 
 
 def get_data(ip4, username, password, obj_type, properties):
-    conn = _get_connection(ip4, username, password)
+    conn = _get_conn(ip4, username, password)
     content = conn.RetrieveContent()
     data = _query_view(
         content=content,
@@ -27,7 +27,7 @@ def get_data(ip4, username, password, obj_type, properties):
 
 
 def get_perf(ip4, username, password, obj_type, metrics, interval):
-    conn = _get_connection(ip4, username, password)
+    conn = _get_conn(ip4, username, password)
     content = conn.RetrieveContent()
     content_time = conn.CurrentTime()
     view_ref = content.viewManager.CreateContainerView(
@@ -79,7 +79,7 @@ def drop_connnection(host):
         conn._stub.DropConnections()
 
 
-def _get_connection(host, username, password):
+def _get_conn(host, username, password):
     conn, expired = AssetCache.get_value((host, 'connection'))
     if expired:
         conn._stub.DropConnections()
