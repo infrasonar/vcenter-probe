@@ -244,14 +244,15 @@ async def check_host_vms(
         if perf is not None:
             path = ('cpu', 'ready')
             total_name = ''
-            total_val = perf[path].get(total_name)
-            if total_val is not None:
-                sample_period = 20_000  # default (milliseconds)
-                info_dct['cpuReadiness'] = total_val / sample_period * 100
-
+            values = perf[path].get(total_name)
+            if values:
+                info_dct['cpuReadiness'] = max(values) / 20_000 * 100
             # number of disk bus reset commands by the virtual machine
             path = ('disk', 'busResets')
-            info_dct['busResets'] = sum(perf[path].values())
+            info_dct['busResets'] = sum(
+                sum(values)
+                for values in perf[path].values()
+            )
 
         hyp = hypervisors_lookup.get(vm['runtime'].host)
         if hyp:
