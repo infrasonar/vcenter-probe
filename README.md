@@ -22,3 +22,38 @@ Variable            | Default                        | Description
 ```
 docker build -t vcenter-probe . --no-cache
 ```
+
+## Config
+
+```yaml
+vcenter:
+  config:
+    username: "my_account"
+    password: "my_password"
+```
+
+## Dry run
+
+Available checks:
+- `alarms`
+- `cluster`
+- `configIssues`
+- `datastore`
+- `hostVMs`
+- `licenses`
+
+Create a yaml file, for example _(test.yaml)_:
+
+```yaml
+asset:
+  name: "foo.local"
+  check: "cluster"
+  config:
+    address: "192.168.1.2"
+```
+
+Run the probe with the `DRY_RUN` environment variable set the the yaml file above.
+
+```
+DRY_RUN=test.yaml python main.py
+```
