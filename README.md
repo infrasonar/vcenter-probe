@@ -3,6 +3,8 @@
 
 # InfraSonar VMware vCenter Probe
 
+Documentation: https://docs.infrasonar.com/collectors/probes/vmware/vcenter/
+
 ## Environment variable
 
 Variable            | Default                        | Description
