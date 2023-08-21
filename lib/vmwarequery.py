@@ -35,6 +35,7 @@ async def vmwarequery_content(
         )
     except (vim.fault.InvalidLogin,
             vim.fault.NotAuthenticated):
+        logging.error(f'invalid credentails for {asset}')
         raise IgnoreResultException
     except vim.fault.HostConnectFault:
         msg = 'Failed to connect.'
@@ -82,6 +83,7 @@ async def vmwarequery_perf(
         )
     except (vim.fault.InvalidLogin,
             vim.fault.NotAuthenticated):
+        logging.error(f'invalid credentails for {asset}')
         raise IgnoreResultException
     except vim.fault.HostConnectFault:
         msg = 'Failed to connect.'
@@ -131,6 +133,7 @@ async def vmwarequery(
         raise
     except (vim.fault.InvalidLogin,
             vim.fault.NotAuthenticated):
+        logging.error(f'invalid credentails for {asset}')
         raise IgnoreResultException
     except vim.fault.HostConnectFault:
         msg = 'Failed to connect.'
