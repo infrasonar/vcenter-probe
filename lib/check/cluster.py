@@ -1,3 +1,4 @@
+import logging
 from libprobe.asset import Asset
 from libprobe.exceptions import IgnoreCheckException
 from pyVmomi import vim  # type: ignore
