@@ -44,7 +44,10 @@ async def check_host_vms(
         guests.append({
             'name': vm['config'].instanceUuid,
             'instanceName': vm['name'],
-            'powerState': vm['runtime'].powerState
+            'powerState': vm['runtime'].powerState,
+            'currentHypervisor':
+                # vm.runtime.host is empty when vm is off
+                vm['runtime'].host and vm['runtime'].host.name,
         })
 
         if vm['guest'].guestState == 'running':
