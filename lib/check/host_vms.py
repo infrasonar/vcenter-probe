@@ -56,8 +56,9 @@ async def check_host_vms(
 
         for device in vm['config'].hardware.device:
             if isinstance(device, vim.vm.device.VirtualDisk):
-                datastore_name = device.backing.datastore.name
-                datastore = stores_lookup[device.backing.datastore]
+                datastore_name = device.backing.datastore.name  # type: ignore
+                datastore = \
+                    stores_lookup[device.backing.datastore]  # type: ignore
                 if datastore_name not in virtual_storage_dct:
                     virtual_storage_dct[datastore_name] = {
                         'name': datastore_name,
