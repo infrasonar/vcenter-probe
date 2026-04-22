@@ -1,7 +1,8 @@
 import logging
 from libprobe.asset import Asset
+from libprobe.check import Check
 from libprobe.exceptions import IgnoreCheckException
-from pyVmomi import vim  # type: ignore
+from pyVmomi import vim
 from ..vmwarequery import vmwarequery
 
 
@@ -60,57 +61,59 @@ def on_host_summary(obj):
     }
 
 
-async def check_cluster(
-        asset: Asset,
-        asset_config: dict,
-        check_config: dict) -> dict:
-    clusters_ = await vmwarequery(
-        asset,
-        asset_config,
-        check_config,
-        vim.ClusterComputeResource,
-        ['summary', 'host'],
-    )
-    if len(clusters_) == 0:
-        logging.warning('no clusters')
-        raise IgnoreCheckException
+class CheckCluster(Check):
+    key = 'cluster'
 
-    hosts_ = await vmwarequery(
-        asset,
-        asset_config,
-        check_config,
-        vim.HostSystem,
-        ['name', 'summary'],
-    )
-    clusters_lookup = {
-        c.obj: {p.name: p.val for p in c.propSet} for c in clusters_}
-    hosts_lookup = {
-        h.obj: {p.name: p.val for p in h.propSet} for h in hosts_}
-    summary = []
-    hosts = []
+    @staticmethod
+    async def run(asset: Asset, local_config: dict, config: dict) -> dict:
 
-    for moref, cluster in clusters_lookup.items():
-        cluster_name = f'{moref.parent.parent.name}-{moref.name}'
-        cluster_dct = on_cluster_summary(cluster['summary'])
-        cluster_dct['name'] = cluster_name
-        summary.append(cluster_dct)
+        clusters_ = await vmwarequery(
+            asset,
+            local_config,
+            config,
+            vim.ClusterComputeResource,
+            ['summary', 'host'],
+        )
+        if len(clusters_) == 0:
+            logging.warning('no clusters')
+            raise IgnoreCheckException
 
-        for host_moref in cluster['host']:
-            host = hosts_lookup.get(host_moref)
-            if host is None:
-                continue
+        hosts_ = await vmwarequery(
+            asset,
+            local_config,
+            config,
+            vim.HostSystem,
+            ['name', 'summary'],
+        )
+        clusters_lookup = {
+            c.obj: {p.name: p.val for p in c.propSet} for c in clusters_}
+        hosts_lookup = {
+            h.obj: {p.name: p.val for p in h.propSet} for h in hosts_}
+        summary = []
+        hosts = []
 
-            host_dct = {
-                **on_host_summary(host['summary']),
-                **on_config_summary(host['summary'].config),
-                **on_about_info(host['summary'].config.product),
-                'productName': host['summary'].config.product.name,
-                'clusterName': cluster_name,
-                'name': host['name'],
-            }
-            hosts.append(host_dct)
+        for moref, cluster in clusters_lookup.items():
+            cluster_name = f'{moref.parent.parent.name}-{moref.name}'
+            cluster_dct = on_cluster_summary(cluster['summary'])
+            cluster_dct['name'] = cluster_name
+            summary.append(cluster_dct)
 
-    return {
-        'cluster': summary,
-        'hosts': hosts
-    }
+            for host_moref in cluster['host']:
+                host = hosts_lookup.get(host_moref)
+                if host is None:
+                    continue
+
+                host_dct = {
+                    **on_host_summary(host['summary']),
+                    **on_config_summary(host['summary'].config),
+                    **on_about_info(host['summary'].config.product),
+                    'productName': host['summary'].config.product.name,
+                    'clusterName': cluster_name,
+                    'name': host['name'],
+                }
+                hosts.append(host_dct)
+
+        return {
+            'cluster': summary,
+            'hosts': hosts
+        }
