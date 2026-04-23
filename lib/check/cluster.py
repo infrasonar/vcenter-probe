@@ -63,6 +63,7 @@ def on_host_summary(obj):
 
 class CheckCluster(Check):
     key = 'cluster'
+    unchanged_eol = 0
 
     @staticmethod
     async def run(asset: Asset, local_config: dict, config: dict) -> dict:
