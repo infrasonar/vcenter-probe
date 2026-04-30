@@ -6,7 +6,7 @@ from pyVmomi import vim
 from ..vmwarequery import vmwarequery
 
 
-def on_cluster_summary(obj):
+def on_cluster_summary(obj: vim.ClusterComputeResource.Summary):
     # vim.ClusterComputeResource.Summary
     return {
         'currentBalance': obj.currentBalance,  # int
@@ -17,7 +17,7 @@ def on_cluster_summary(obj):
     }
 
 
-def on_about_info(obj):
+def on_about_info(obj: vim.AboutInfo):
     # vim.AboutInfo
     return {
         'apiType': obj.apiType,  # str
@@ -38,7 +38,7 @@ def on_about_info(obj):
     }
 
 
-def on_config_summary(obj):
+def on_config_summary(obj: vim.host.Summary.ConfigSummary):
     # vim.host.Summary.ConfigSummary
     return {
         'faultToleranceEnabled': obj.faultToleranceEnabled,  # bool
@@ -49,7 +49,7 @@ def on_config_summary(obj):
     }
 
 
-def on_host_summary(obj):
+def on_host_summary(obj: vim.host.Summary):
     # vim.host.Summary
     return {
         'currentEVCGraphicsModeKey': obj.currentEVCGraphicsModeKey,  # str/null
